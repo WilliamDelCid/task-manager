@@ -97,26 +97,28 @@ function AddTaskModal({ boardId, onClose, onAdded }) {
 
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-end sm:items-center justify-center z-50 p-0 sm:p-4">
-      <div className="bg-white rounded-t-2xl sm:rounded-2xl w-full sm:max-w-md shadow-2xl">
-        <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-100">
+      <div className="bg-white rounded-t-2xl sm:rounded-2xl w-full sm:max-w-md shadow-2xl max-h-[90vh] sm:max-h-[80vh] flex flex-col">
+        <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-100 shrink-0">
           <h3 className="font-bold text-gray-900">Nueva tarea</h3>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600 transition-colors">
             <X size={20} />
           </button>
         </div>
-        <form onSubmit={handleSubmit} className="px-4 sm:px-6 py-5 space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Descripción de la tarea</label>
-            <input
-              ref={inputRef}
-              type="text"
-              value={description}
-              onChange={e => setDescription(e.target.value)}
-              placeholder="¿Qué se va a hacer?"
-              className="w-full border border-gray-200 rounded-lg px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
+        <form onSubmit={handleSubmit} className="flex flex-col flex-1 min-h-0">
+          <div className="px-4 sm:px-6 py-5 space-y-4 overflow-y-auto flex-1">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Descripción de la tarea</label>
+              <input
+                ref={inputRef}
+                type="text"
+                value={description}
+                onChange={e => setDescription(e.target.value)}
+                placeholder="¿Qué se va a hacer?"
+                className="w-full border border-gray-200 rounded-lg px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
           </div>
-          <div className="flex gap-3 justify-end pt-2">
+          <div className="flex gap-3 justify-end px-4 sm:px-6 py-4 border-t border-gray-100 bg-gray-50 shrink-0">
             <button type="button" onClick={onClose} className="px-4 py-2.5 text-sm text-gray-600 hover:text-gray-900 transition-colors">
               Cancelar
             </button>
@@ -265,9 +267,9 @@ function TaskRow({ task, onUpdate, onDelete, collaborators }) {
               </button>
               
               {showAssignPicker && (
-                <div className="fixed inset-0 bg-black/20 z-40 flex items-end sm:items-center justify-center p-0 sm:p-4">
-                  <div className="bg-white rounded-t-2xl sm:rounded-2xl w-full sm:max-w-md max-h-[80vh] flex flex-col shadow-2xl">
-                    <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
+                <div className="fixed inset-0 bg-black/20 z-40 flex items-end sm:items-center justify-center p-0 sm:p-4" onClick={() => setShowAssignPicker(false)}>
+                  <div className="bg-white rounded-t-2xl sm:rounded-2xl w-full sm:max-w-md max-h-[85vh] flex flex-col shadow-2xl" onClick={e => e.stopPropagation()}>
+                    <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 shrink-0">
                       <h3 className="font-semibold text-gray-900">Asignar colaboradores</h3>
                       <button
                         onClick={() => setShowAssignPicker(false)}
@@ -302,6 +304,14 @@ function TaskRow({ task, onUpdate, onDelete, collaborators }) {
                       {collaborators.length === 0 && (
                         <p className="text-center text-gray-400 py-8">No hay colaboradores</p>
                       )}
+                    </div>
+                    <div className="px-4 py-3 border-t border-gray-200 bg-gray-50 shrink-0">
+                      <button
+                        onClick={() => setShowAssignPicker(false)}
+                        className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition-colors"
+                      >
+                        Listo
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -371,9 +381,9 @@ function TaskRow({ task, onUpdate, onDelete, collaborators }) {
       {showTimePicker && (
         <tr>
           <td colSpan={2}>
-            <div className="fixed inset-0 bg-black/20 z-40 flex items-end sm:items-center justify-center p-0 sm:p-4">
-              <div className="bg-white rounded-t-2xl sm:rounded-2xl w-full sm:max-w-md shadow-2xl">
-                <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
+            <div className="fixed inset-0 bg-black/20 z-40 flex items-end sm:items-center justify-center p-0 sm:p-4" onClick={() => setShowTimePicker(false)}>
+              <div className="bg-white rounded-t-2xl sm:rounded-2xl w-full sm:max-w-md shadow-2xl max-h-[85vh] flex flex-col" onClick={e => e.stopPropagation()}>
+                <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 shrink-0">
                   <h3 className="font-semibold text-gray-900">Establecer horario</h3>
                   <button
                     onClick={() => setShowTimePicker(false)}
@@ -382,7 +392,7 @@ function TaskRow({ task, onUpdate, onDelete, collaborators }) {
                     <X size={20} />
                   </button>
                 </div>
-                <div className="p-4 space-y-4">
+                <div className="p-4 space-y-4 overflow-y-auto flex-1">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Hora de inicio
@@ -405,6 +415,8 @@ function TaskRow({ task, onUpdate, onDelete, collaborators }) {
                       className="w-full text-base border border-gray-200 rounded-lg px-3 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
+                </div>
+                <div className="px-4 py-3 border-t border-gray-200 bg-gray-50 shrink-0">
                   <button
                     onClick={() => setShowTimePicker(false)}
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition-colors"
