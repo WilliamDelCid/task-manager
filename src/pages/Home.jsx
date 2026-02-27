@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
-import { Plus, ClipboardList, ChevronRight, Calendar } from 'lucide-react'
+import { Plus, ClipboardList, ChevronRight, Calendar, Users } from 'lucide-react'
 
 export default function Home() {
   const [boards, setBoards] = useState([])
@@ -57,29 +57,53 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="max-w-4xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="bg-blue-600 rounded-lg p-2">
-              <ClipboardList className="text-white" size={22} />
+      <header className="bg-white border-b border-gray-200 px-3 sm:px-6 py-3 sm:py-4">
+        <div className="max-w-4xl mx-auto flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+            <div className="bg-blue-600 rounded-lg p-1.5 sm:p-2 shrink-0">
+              <ClipboardList className="text-white" size={20} />
             </div>
-            <div>
-              <h1 className="text-xl font-bold text-gray-900">Task Manager</h1>
-              <p className="text-xs text-gray-500">Gestión de tareas diarias</p>
+            <div className="min-w-0">
+              <h1 className="text-lg sm:text-xl font-bold text-gray-900">Task Manager</h1>
+              <p className="text-xs text-gray-500 hidden sm:block">Gestión de tareas diarias</p>
             </div>
           </div>
-          <button
-            onClick={createTodayBoard}
-            disabled={creating}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors disabled:opacity-60"
-          >
-            <Plus size={16} />
-            {todayBoard ? 'Abrir listado de hoy' : 'Crear listado de hoy'}
-          </button>
+          <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+            <button
+              onClick={() => navigate('/collaborators')}
+              className="hidden sm:flex items-center gap-2 border border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-900 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+            >
+              <Users size={16} />
+              Colaboradores
+            </button>
+            <button
+              onClick={() => navigate('/collaborators')}
+              className="sm:hidden p-2 border border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-900 rounded-lg transition-colors"
+              title="Colaboradores"
+            >
+              <Users size={18} />
+            </button>
+            <button
+              onClick={createTodayBoard}
+              disabled={creating}
+              className="hidden sm:flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors disabled:opacity-60"
+            >
+              <Plus size={16} />
+              {todayBoard ? 'Abrir listado de hoy' : 'Crear listado de hoy'}
+            </button>
+            <button
+              onClick={createTodayBoard}
+              disabled={creating}
+              className="sm:hidden p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors disabled:opacity-60"
+              title={todayBoard ? 'Abrir listado de hoy' : 'Crear listado de hoy'}
+            >
+              <Plus size={20} />
+            </button>
+          </div>
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-6 py-8">
+      <main className="max-w-4xl mx-auto px-3 sm:px-6 py-4 sm:py-8">
         {loading ? (
           <div className="flex justify-center py-20">
             <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
